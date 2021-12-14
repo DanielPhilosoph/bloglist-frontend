@@ -8,7 +8,7 @@ const BlogsList = (props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAll().then((blogs) => setBlogs(blogs));
+    getAll(props.token).then((blogs) => setBlogs(blogs));
   }, [props.token]);
 
   const logout = () => {
