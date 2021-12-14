@@ -68,13 +68,11 @@ const Blog = ({ blog, setBlogs }) => {
   };
 
   return (
-    <div>
-      <span className="titleSpan">
-        Title: {blog.title}{" "}
-        <button onClick={showMore} ref={showBtn}>
-          show more
-        </button>
-      </span>
+    <div className="blog">
+      <span className="titleSpan">Title: {blog.title} </span>
+      <button onClick={showMore} ref={showBtn}>
+        show more
+      </button>
       <br />
       <div style={{ display: show ? "block" : "none" }}>
         <span>Author: {blog.author}</span>

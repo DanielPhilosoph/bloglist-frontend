@@ -1,8 +1,9 @@
 import React from "react";
 import "@testing-library/jest-dom/extend-expect";
 import { render } from "@testing-library/react";
+import { prettyDOM } from "@testing-library/dom";
 
-import Blog from "../src/components/Blog";
+import Blog from "../Blog";
 
 describe("blog component", () => {
   test("render a blog", () => {
@@ -16,6 +17,8 @@ describe("blog component", () => {
 
     const component = render(<Blog blog={blog} setBlogs={() => {}} />);
 
-    expect(component.container).toHaveClass("titleSpan");
+    const titleSpan = component.container.querySelector(".titleSpan");
+
+    expect(titleSpan).toHaveTextContent("Title: test title");
   });
 });
