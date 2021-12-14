@@ -18,7 +18,7 @@ const Blog = ({ blog }) => {
       await axios.put(
         `/api/blogs/${blog._id}`,
         {
-          likes: blog.likes + 1,
+          likes: blog.likes === likes ? blog.likes + 1 : likes + 1,
         },
         {
           headers: {
