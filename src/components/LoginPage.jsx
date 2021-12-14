@@ -2,6 +2,8 @@ import axios from "axios";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
+import Swal from "sweetalert2";
+
 const LoginPage = (props) => {
   const username = useRef();
   const password = useRef();
@@ -23,7 +25,14 @@ const LoginPage = (props) => {
       // Success! Go to blogs
       navigate(`/blogs`);
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: error.response.data,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      console.log(error.response.data);
     }
   };
 
