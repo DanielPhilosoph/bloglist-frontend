@@ -25,13 +25,29 @@ const BlogsList = (props) => {
   const newBlogClick = async () => {
     try {
       if (title.current.value && author.current.value && url.current.value) {
-        const response = await axios.post("/api/blogs", {
-          title: title.current.value,
-          author: author.current.value,
-          url: url.current.value,
-        });
+        const token =
+          "bearer " + JSON.parse(localStorage.getItem("user")).token;
+        const response = await axios.post(
+          "/api/blogs",
+          {
+            title: title.current.value,
+            author: author.current.value,
+            url: url.current.value,
+          },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
 
+        // Update blogs
         setBlogs(response.data);
+
+        // Reset fields
+        title.current.value = "";
+        author.current.value = "";
+        url.current.value = "";
       } else {
         console.log("missing field");
       }
@@ -65,7 +81,9 @@ const BlogsList = (props) => {
         <input type="text" placeholder="URL" ref={url}></input>
         <br />
         <br />
-        <button onClick={newBlogClick}>create</button>
+        <button type="button" onClick={newBlogClick}>
+          create
+        </button>
       </form>
     </div>
   );
