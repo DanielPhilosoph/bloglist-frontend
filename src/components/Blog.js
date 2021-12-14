@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useState, useRef } from "react/cjs/react.development";
 import Swal from "sweetalert2";
+import PropTypes from "prop-types";
 
 const Blog = ({ blog, setBlogs }) => {
   const [show, setShow] = useState(false);
@@ -93,6 +94,11 @@ const Blog = ({ blog, setBlogs }) => {
       <br />
     </div>
   );
+};
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  setBlogs: PropTypes.func.isRequired,
 };
 
 export default Blog;

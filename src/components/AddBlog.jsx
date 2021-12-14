@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useRef } from "react/cjs/react.development";
 import Swal from "sweetalert2";
+import React from "react";
+import PropTypes from "prop-types";
 
 const AddBlog = (props) => {
   const title = useRef();
@@ -81,6 +83,12 @@ const AddBlog = (props) => {
       </button>
     </form>
   );
+};
+
+AddBlog.propTypes = {
+  showForm: PropTypes.bool.isRequired,
+  setShowForm: PropTypes.func.isRequired,
+  setBlogs: PropTypes.func.isRequired,
 };
 
 export default AddBlog;

@@ -3,6 +3,7 @@ import Blog from "./Blog";
 import getAll from "../services/blogs";
 import { useNavigate } from "react-router-dom";
 import AddBlog from "./AddBlog";
+import PropTypes from "prop-types";
 
 const BlogsList = (props) => {
   const [blogs, setBlogs] = useState([]);
@@ -51,6 +52,11 @@ const BlogsList = (props) => {
       />
     </div>
   );
+};
+
+BlogsList.propTypes = {
+  username: PropTypes.string,
+  token: PropTypes.string,
 };
 
 export default BlogsList;

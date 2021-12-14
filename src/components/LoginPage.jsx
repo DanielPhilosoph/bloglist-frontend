@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import React from "react";
+import PropTypes from "prop-types";
 
 import Swal from "sweetalert2";
 
@@ -55,6 +57,11 @@ const LoginPage = (props) => {
       </form>
     </div>
   );
+};
+
+LoginPage.propTypes = {
+  setUsername: PropTypes.func.isRequired,
+  setToken: PropTypes.func.isRequired,
 };
 
 export default LoginPage;
