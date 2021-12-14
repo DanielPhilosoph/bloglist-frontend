@@ -22,6 +22,11 @@ const BlogsList = (props) => {
     setShowForm(showForm ? false : true);
   };
 
+  const blogsToRender = () => {
+    blogs.sort((a, b) => b.likes - a.likes);
+    return blogs.map((blog) => <Blog key={blog._id.toString()} blog={blog} />);
+  };
+
   return (
     <div className="container">
       <h1>blogs</h1>
@@ -29,9 +34,7 @@ const BlogsList = (props) => {
       <p>
         <button onClick={logout}>logout</button>
       </p>
-      {blogs.map((blog) => (
-        <Blog key={blog._id.toString()} blog={blog} />
-      ))}
+      {blogsToRender()}
       <br />
       <br />
       <h2>Create new</h2>
