@@ -8,7 +8,8 @@ import axios from "axios";
 const BlogsList = (props) => {
   const [blogs, setBlogs] = useState([]);
   const navigate = useNavigate();
-  const [show, setShow] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
   const title = useRef();
   const author = useRef();
@@ -43,11 +44,12 @@ const BlogsList = (props) => {
           }
         );
 
-        // Update blogs
+        // Update blogs & close new blog form
         setBlogs(response.data);
+        setShowForm(false);
 
         // Display massage
-        setShow(true);
+        setShowMessage(true);
         massage.current.innerText = `Added blog ${title.current.value}!`;
 
         // Reset fields
@@ -58,7 +60,7 @@ const BlogsList = (props) => {
         // Remove massage
         setTimeout(() => {
           massage.current.innerText = "";
-          setShow(false);
+          setShowMessage(false);
         }, 5000);
       } else {
         console.log("missing field");
@@ -68,6 +70,10 @@ const BlogsList = (props) => {
     }
   };
 
+  const toggleForm = () => {
+    setShowForm(showForm ? false : true);
+  };
+
   return (
     <div className="container">
       <h1>blogs</h1>
@@ -75,7 +81,7 @@ const BlogsList = (props) => {
       <p
         ref={massage}
         className="massage"
-        style={{ display: show ? "block" : "none" }}
+        style={{ display: showMessage ? "block" : "none" }}
       ></p>
       <p>
         <button onClick={logout}>logout</button>
@@ -87,7 +93,10 @@ const BlogsList = (props) => {
       <br />
       <h2>Create new</h2>
       <br />
-      <form>
+      <button onClick={toggleForm}>Create new blog</button>
+      <br />
+      <br />
+      <form style={{ display: showForm ? "block" : "none" }}>
         <span>Title: </span>
         <input type="text" placeholder="Title" ref={title}></input>
         <br />
