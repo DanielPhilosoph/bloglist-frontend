@@ -4,37 +4,14 @@ import { useState, useRef } from "react/cjs/react.development";
 import Swal from "sweetalert2";
 import PropTypes from "prop-types";
 
-const Blog = ({ blog, setBlogs }) => {
+const Blog = ({ blog, setBlogs, likeClick }) => {
   const [show, setShow] = useState(false);
-  const [likes, setLikes] = useState(blog.likes);
 
   const showBtn = useRef();
 
   const showMore = () => {
     setShow(show ? false : true);
     showBtn.current.innerText = show ? "show more" : "show less";
-  };
-
-  const likeClick = async () => {
-    const token = "bearer " + JSON.parse(localStorage.getItem("user")).token;
-    try {
-      await axios.put(
-        `/api/blogs/${blog._id}`,
-        {
-          likes: blog.likes === likes ? blog.likes + 1 : likes + 1,
-        },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-
-      setLikes(likes + 1);
-      console.log("Updated");
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const deleteBlog = async () => {
@@ -79,8 +56,15 @@ const Blog = ({ blog, setBlogs }) => {
         <br />
         <span className="url">Url: {blog.url}</span>
         <br />
-        <span className="likes">Likes: {likes}</span>
-        <button onClick={likeClick}>like</button>
+        <span className="likes">Likes: {blog.likes}</span>
+        <button
+          onClick={() => {
+            likeClick(blog._id, blog.likes);
+          }}
+          className="likeButton"
+        >
+          like
+        </button>
         <br />
         <span>User: {blog.user.name || blog.user.username}</span>
         <br />
@@ -96,6 +80,7 @@ const Blog = ({ blog, setBlogs }) => {
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   setBlogs: PropTypes.func.isRequired,
+  likeClick: PropTypes.func.isRequired,
 };
 
 export default Blog;

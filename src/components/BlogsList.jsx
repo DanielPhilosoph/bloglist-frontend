@@ -4,6 +4,8 @@ import getAll from "../services/blogs";
 import { useNavigate } from "react-router-dom";
 import AddBlog from "./AddBlog";
 import PropTypes from "prop-types";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const BlogsList = (props) => {
   const [blogs, setBlogs] = useState([]);
@@ -12,7 +14,42 @@ const BlogsList = (props) => {
 
   useEffect(() => {
     getAll(props.token).then((blogs) => setBlogs(blogs));
-  }, [props.token]);
+  });
+
+  const likeClick = async (id, currentLikes) => {
+    const token = "bearer " + JSON.parse(localStorage.getItem("user")).token;
+    try {
+      await axios.put(
+        `/api/blogs/${id}`,
+        {
+          likes: currentLikes + 1,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      setBlogs(
+        blogs.map((blog) => {
+          if (blog._id === id) {
+            blog.likes++;
+          }
+          return blog;
+        })
+      );
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: `Opps!`,
+        text: "something went wrong!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  };
 
   const logout = () => {
     localStorage.removeItem("user");
@@ -26,7 +63,12 @@ const BlogsList = (props) => {
   const blogsToRender = () => {
     blogs.sort((a, b) => b.likes - a.likes);
     return blogs.map((blog) => (
-      <Blog key={blog._id.toString()} blog={blog} setBlogs={setBlogs} />
+      <Blog
+        key={blog._id.toString()}
+        blog={blog}
+        setBlogs={setBlogs}
+        likeClick={likeClick}
+      />
     ));
   };
 

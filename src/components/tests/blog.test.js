@@ -44,4 +44,28 @@ describe("blog component", () => {
     expect(likesSpan).toHaveTextContent("Likes: 10");
     expect(urlSpan).toHaveTextContent("Url: test url");
   });
+
+  test("clicking the twice on the like button will calls event handler twice", () => {
+    const blog = {
+      title: "test title",
+      author: "test author",
+      user: { username: "test username" },
+      url: "test url",
+      likes: 10,
+    };
+
+    const mockHandler = jest.fn();
+    const component = render(
+      <Blog blog={blog} likeClick={mockHandler} setBlogs={() => {}} />
+    );
+
+    const showBtn = component.container.querySelector(".showBtn");
+    fireEvent.click(showBtn);
+
+    const likeButton = component.container.querySelector(".likeButton");
+    fireEvent.click(likeButton);
+    fireEvent.click(likeButton);
+
+    expect(mockHandler.mock.calls).toHaveLength(2);
+  });
 });
