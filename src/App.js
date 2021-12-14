@@ -1,24 +1,31 @@
-import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
-import blogService from './services/blogs'
+import React, { useState } from "react";
+import LoginPage from "./components/LoginPage";
+import BlogList from "./components/BlogsList.jsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
-
-  useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
-  }, [])
+  const [token, setToken] = useState(null);
+  const [username, setUsername] = useState(null);
 
   return (
     <div>
-      <h2>blogs</h2>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-    </div>
-  )
-}
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <LoginPage setToken={setToken} setUsername={setUsername} />
+            }
+          />
 
-export default App
+          <Route
+            path={`/blogs`}
+            element={<BlogList token={token} username={username} />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+};
+
+export default App;
