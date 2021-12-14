@@ -69,7 +69,7 @@ const Blog = ({ blog, setBlogs }) => {
 
   return (
     <div>
-      <span>
+      <span className="titleSpan">
         Title: {blog.title}{" "}
         <button onClick={showMore} ref={showBtn}>
           show more
