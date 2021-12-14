@@ -70,18 +70,17 @@ const Blog = ({ blog, setBlogs }) => {
   return (
     <div className="blog">
       <span className="titleSpan">Title: {blog.title} </span>
-      <button onClick={showMore} ref={showBtn}>
+      <button onClick={showMore} ref={showBtn} className="showBtn">
         show more
       </button>
       <br />
-      <div style={{ display: show ? "block" : "none" }}>
+      <div className="blogInfo" style={{ display: show ? "block" : "none" }}>
         <span>Author: {blog.author}</span>
         <br />
-        <span>Url: {blog.url}</span>
+        <span className="url">Url: {blog.url}</span>
         <br />
-        <span>
-          Likes: {likes} <button onClick={likeClick}>like</button>
-        </span>{" "}
+        <span className="likes">Likes: {likes}</span>
+        <button onClick={likeClick}>like</button>
         <br />
         <span>User: {blog.user.name || blog.user.username}</span>
         <br />
