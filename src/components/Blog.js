@@ -1,7 +1,9 @@
 import axios from "axios";
 import React from "react";
 import { useState, useRef } from "react/cjs/react.development";
-const Blog = ({ blog }) => {
+import Swal from "sweetalert2";
+
+const Blog = ({ blog, setBlogs }) => {
   const [show, setShow] = useState(false);
   const [likes, setLikes] = useState(blog.likes);
 
@@ -33,6 +35,37 @@ const Blog = ({ blog }) => {
       console.log(error);
     }
   };
+
+  const deleteBlog = async () => {
+    const token = "bearer " + JSON.parse(localStorage.getItem("user")).token;
+    try {
+      const response = await axios.delete(`/api/blogs/${blog._id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+
+      setBlogs(response.data);
+
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: `Deleted blog by ${blog.user.name || blog.user.username}`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } catch (error) {
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: `Opps!`,
+        text: "something went wrong!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  };
+
   return (
     <div>
       <span>
@@ -52,6 +85,9 @@ const Blog = ({ blog }) => {
         </span>{" "}
         <br />
         <span>User: {blog.user.name || blog.user.username}</span>
+        <br />
+        <br />
+        <button onClick={deleteBlog}>remove</button>
       </div>
       <br />
       <br />
