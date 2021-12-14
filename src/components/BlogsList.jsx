@@ -8,10 +8,12 @@ import axios from "axios";
 const BlogsList = (props) => {
   const [blogs, setBlogs] = useState([]);
   const navigate = useNavigate();
+  const [show, setShow] = useState(false);
 
   const title = useRef();
   const author = useRef();
   const url = useRef();
+  const massage = useRef();
 
   useEffect(() => {
     getAll(props.token).then((blogs) => setBlogs(blogs));
@@ -44,10 +46,20 @@ const BlogsList = (props) => {
         // Update blogs
         setBlogs(response.data);
 
+        // Display massage
+        setShow(true);
+        massage.current.innerText = `Added blog ${title.current.value}!`;
+
         // Reset fields
         title.current.value = "";
         author.current.value = "";
         url.current.value = "";
+
+        // Remove massage
+        setTimeout(() => {
+          massage.current.innerText = "";
+          setShow(false);
+        }, 5000);
       } else {
         console.log("missing field");
       }
@@ -57,9 +69,14 @@ const BlogsList = (props) => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>blogs</h1>
       <h3>{props.username} has logged in</h3>
+      <p
+        ref={massage}
+        className="massage"
+        style={{ display: show ? "block" : "none" }}
+      ></p>
       <p>
         <button onClick={logout}>logout</button>
       </p>
