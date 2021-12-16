@@ -44,14 +44,24 @@ const LoginPage = (props) => {
       <br />
       <form>
         <span>User name: </span>
-        <input ref={username} type="text" placeholder="User name"></input>
+        <input
+          ref={username}
+          id="username"
+          type="text"
+          placeholder="User name"
+        ></input>
         <br />
         <br />
         <span>Password: </span>
-        <input ref={password} type="password" placeholder="Password"></input>
+        <input
+          ref={password}
+          id="password"
+          type="password"
+          placeholder="Password"
+        ></input>
         <br />
         <br />
-        <button type="button" onClick={loginClick}>
+        <button type="button" id="login" onClick={loginClick}>
           login
         </button>
       </form>
