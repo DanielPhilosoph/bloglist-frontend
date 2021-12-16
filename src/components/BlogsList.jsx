@@ -127,7 +127,7 @@ const BlogsList = (props) => {
       }
     } catch (error) {
       console.log(error);
-      fireErrorMassage(error.response);
+      fireErrorMassage(error);
       return false;
     }
   };
@@ -144,7 +144,9 @@ const BlogsList = (props) => {
       <br />
       <h2>Create new</h2>
       <br />
-      <button onClick={toggleForm}>Create new blog</button>
+      <button onClick={toggleForm} id="toggleCreateFrom">
+        Create new blog
+      </button>
       <br />
       <br />
       <AddBlog showForm={showForm} newBlogClick={newBlogClick} />

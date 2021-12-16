@@ -25,7 +25,10 @@ const AddBlog = (props) => {
   };
 
   return (
-    <form style={{ display: props.showForm ? "block" : "none" }}>
+    <form
+      id="addBlogForm"
+      style={{ display: props.showForm ? "block" : "none" }}
+    >
       <span>Title: </span>
       <input
         type="text"
