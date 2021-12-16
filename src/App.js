@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import LoginPage from "./components/LoginPage";
 import BlogList from "./components/BlogsList.jsx";
-import "./app.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = () => {

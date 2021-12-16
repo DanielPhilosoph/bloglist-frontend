@@ -4,6 +4,7 @@ import { render, fireEvent } from "@testing-library/react";
 import { prettyDOM } from "@testing-library/dom";
 
 import Blog from "../Blog";
+import AddBlog from "../AddBlog";
 
 describe("blog component", () => {
   test("render a blog", () => {
@@ -15,7 +16,9 @@ describe("blog component", () => {
       likes: 10,
     };
 
-    const component = render(<Blog blog={blog} setBlogs={() => {}} />);
+    const component = render(
+      <Blog blog={blog} setBlogs={() => {}} likeClick={() => {}} />
+    );
 
     const titleSpan = component.container.querySelector(".titleSpan");
 
@@ -31,7 +34,9 @@ describe("blog component", () => {
       likes: 10,
     };
 
-    const component = render(<Blog blog={blog} setBlogs={() => {}} />);
+    const component = render(
+      <Blog blog={blog} setBlogs={() => {}} likeClick={() => {}} />
+    );
 
     const showBtn = component.container.querySelector(".showBtn");
     fireEvent.click(showBtn);
@@ -67,5 +72,35 @@ describe("blog component", () => {
     fireEvent.click(likeButton);
 
     expect(mockHandler.mock.calls).toHaveLength(2);
+  });
+});
+
+describe("addBlog component", () => {
+  test("check add blog", () => {
+    const mockHandler = jest.fn();
+    const component = render(
+      <AddBlog showForm={true} newBlogClick={mockHandler} />
+    );
+
+    // Find inputs
+    const title = component.container.querySelector("#createTitle");
+    const author = component.container.querySelector("#createAuthor");
+    const url = component.container.querySelector("#createUrl");
+
+    // Write to inputs
+    fireEvent.change(title, {
+      target: { value: "title for testing" },
+    });
+    fireEvent.change(author, {
+      target: { value: "author for testing" },
+    });
+    fireEvent.change(url, {
+      target: { value: "url.for.testing.com" },
+    });
+
+    const createButton = component.container.querySelector(".createButton");
+    fireEvent.click(createButton);
+
+    expect(mockHandler.mock.calls).toHaveLength(1);
   });
 });

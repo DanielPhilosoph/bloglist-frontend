@@ -72,6 +72,66 @@ const BlogsList = (props) => {
     ));
   };
 
+  const fireErrorMassage = (title, text) => {
+    Swal.fire({
+      position: "top-end",
+      icon: "error",
+      title: title,
+      text: text,
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  };
+
+  const fireSuccessMassage = (title, text) => {
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: title,
+      text: text,
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  };
+
+  const newBlogClick = async (title, author, url) => {
+    try {
+      if (title && author && url) {
+        const token =
+          "bearer " + JSON.parse(localStorage.getItem("user")).token;
+        const response = await axios.post(
+          "/api/blogs",
+          {
+            title: title,
+            author: author,
+            url: url,
+          },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+
+        // Update blogs & close new blog form
+        setBlogs(response.data);
+        setShowForm(false);
+
+        // Display massage
+        fireSuccessMassage(`Added blog ${title}!`);
+
+        return true;
+      } else {
+        fireErrorMassage("Missing field");
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      fireErrorMassage(error.response);
+      return false;
+    }
+  };
+
   return (
     <div className="container">
       <h1>blogs</h1>
@@ -87,11 +147,7 @@ const BlogsList = (props) => {
       <button onClick={toggleForm}>Create new blog</button>
       <br />
       <br />
-      <AddBlog
-        showForm={showForm}
-        setShowForm={setShowForm}
-        setBlogs={setBlogs}
-      />
+      <AddBlog showForm={showForm} newBlogClick={newBlogClick} />
     </div>
   );
 };
