@@ -69,7 +69,9 @@ const Blog = ({ blog, setBlogs, likeClick }) => {
         <span>User: {blog.user.name || blog.user.username}</span>
         <br />
         <br />
-        <button onClick={deleteBlog}>remove</button>
+        <button className="removeBtn" onClick={deleteBlog}>
+          remove
+        </button>
       </div>
       <br />
       <br />

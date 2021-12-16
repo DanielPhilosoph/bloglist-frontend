@@ -7,10 +7,12 @@ describe("Blog app", function () {
       password: "123456",
     };
     cy.request("POST", "http://localhost:3001/api/users/", user);
-    cy.visit("http://localhost:3000");
   });
 
   describe("login form", function () {
+    beforeEach(function () {
+      cy.visit("http://localhost:3000");
+    });
     it("should show login form by default", function () {
       cy.get("#username").should("exist");
       cy.get("#password").should("exist");
@@ -44,7 +46,7 @@ describe("Blog app", function () {
         };
         cy.request("POST", "http://localhost:3001/api/login", userInfo).then(
           function (response) {
-            window.localStorage.setItem("user", JSON.stringify(response.body));
+            localStorage.setItem("user", JSON.stringify(response.body));
           }
         );
         cy.visit("http://localhost:3000/blogs");
@@ -58,6 +60,30 @@ describe("Blog app", function () {
         cy.get("#createUrl").type("some.url.com");
         cy.get(".createButton").click();
         cy.get(".blog > .titleSpan").contains("Im a new title");
+        cy.visit("http://localhost:3000");
+      });
+
+      it("Can like a blog", function () {
+        cy.get("#toggleCreateFrom").click();
+        cy.get("#createTitle").type("Im a new title");
+        cy.get("#createAuthor").type("Author");
+        cy.get("#createUrl").type("some.url.com");
+        cy.get(".createButton").click();
+        cy.get(".blog > .showBtn").click();
+        cy.get(".likeButton").click();
+        cy.get(".likes").contains("Likes: 1");
+        cy.visit("http://localhost:3000");
+      });
+
+      it("Can delete a blog", function () {
+        cy.get("#toggleCreateFrom").click();
+        cy.get("#createTitle").type("Im a new title");
+        cy.get("#createAuthor").type("Author");
+        cy.get("#createUrl").type("some.url.com");
+        cy.get(".createButton").click();
+        cy.get(".blog > .showBtn").click();
+        cy.get(".removeBtn").click();
+        cy.get("blog").should("not.exist");
       });
     });
   });
