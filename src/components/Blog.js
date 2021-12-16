@@ -46,7 +46,7 @@ const Blog = ({ blog, setBlogs, likeClick }) => {
 
   return (
     <div className="blog">
-      <span className="titleSpan">Title: {blog.title} </span>
+      <span className="titleSpan">Title: {blog.title}</span>
       <button onClick={showMore} ref={showBtn} className="showBtn">
         show more
       </button>
